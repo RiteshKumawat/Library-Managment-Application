@@ -1,0 +1,1 @@
+java -classpath ..\..\bl\classes;..\..\dl\classes;..\classes;c:\somin\itext\*;. AuthorFrameTestCase

@@ -1,0 +1,16 @@
+apply plugin : 'java'
+task copyFiles{
+		copy{
+			from ('../dl/build/libs')
+			into 'libs'
+		}
+copy{
+			from ('../bl/build/libs')
+			into 'libs'
+		}
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
