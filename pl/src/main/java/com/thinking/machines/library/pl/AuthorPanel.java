@@ -98,6 +98,7 @@ public void actionPerformed(ActionEvent e)
 {
 searchTextField.setText("");
 searchTextField.requestFocus();
+
 }
 });
 }
@@ -109,7 +110,9 @@ if(leftPartOfNameToSearch.length()==0) return;
 try
 {
 int index=authorModel.getAuthorIndexByName(leftPartOfNameToSearch,true,true);
+
 authorTable.setRowSelectionInterval(index,index);
+
 authorTable.scrollRectToVisible(new java.awt.Rectangle(authorTable.getCellRect(index,0,true)));
 }catch(BLException e)
 {
@@ -158,9 +161,9 @@ public void setEditMode()
 {
 this.mode=EDIT_MODE;
 authorSearchLabel.setEnabled(true);
-searchTextField.setEnabled(true);
+searchTextField.setEnabled(false);
 clearButton.setEnabled(true);
-authorTable.setEnabled(true);
+authorTable.setEnabled(false);
 }
 public void setDeleteMode()
 {
@@ -281,6 +284,7 @@ editButton.addActionListener(this);
 cancelButton.addActionListener(this);
 deleteButton.addActionListener(this);
 exportToPDFButton.addActionListener(this);
+clearAuthorTextFieldButton.addActionListener(this);
 }
 
 public void setViewMode()
@@ -310,8 +314,9 @@ public void setAddMode()
 addButton.setIcon(saveIcon);
 authorCaptionLabel.setVisible(true);
 authorTextField.setVisible(true);
+authorTextField.requestFocus();
 authorLabel.setVisible(false);
-clearAuthorTextFieldButton.setEnabled(true);
+clearAuthorTextFieldButton.setVisible(true);
 editButton.setEnabled(false);
 deleteButton.setEnabled(false);
 cancelButton.setEnabled(true);
@@ -322,15 +327,18 @@ authorTextField.setEditable(true);
 
 public void setEditMode()
 {
+
 authorTextField.setText(author.getName());
-authorCaptionLabel.setVisible(false);
+authorCaptionLabel.setVisible(true);
 authorTextField.setVisible(true);
 clearAuthorTextFieldButton.setVisible(true);
 editButton.setIcon(saveIcon);
 editButton.setEnabled(true);
+addButton.setEnabled(false);
 deleteButton.setEnabled(false);
 cancelButton.setEnabled(true);
 exportToPDFButton.setEnabled(false);
+authorTextField.requestFocus();
 }
 
 public void setDeleteMode()
@@ -362,6 +370,12 @@ this.authorLabel.setText(" ");
 }
 public void actionPerformed(ActionEvent ev)
 {
+if(ev.getSource()==clearAuthorTextFieldButton)
+{
+authorTextField.setText("");
+return;
+}
+else
 if(ev.getSource()==addButton)
 {
 if(AuthorPanel.this.mode==VIEW_MODE)
@@ -372,6 +386,14 @@ this.setAddMode();
 else
 {
 String name=authorTextField.getText().trim();
+
+if(name.length()==0 || name==null)
+{
+JOptionPane.showMessageDialog(AuthorPanel.this,"Enter the valid input");
+authorTextField.setText("");
+authorTextField.requestFocus();
+return;
+}
 try
 {
 AuthorInterface newAuthor=new Author();
@@ -460,6 +482,7 @@ JFileChooser jfc=new JFileChooser();
 jfc.setCurrentDirectory(new File("."));
 jfc.setAcceptAllFileFilterUsed(false);
 jfc.setFileFilter(new FileNameExtensionFilter("PDF Files","pdf"));
+
 int selectedOption=jfc.showSaveDialog(AuthorPanel.this);
 if(selectedOption==jfc.APPROVE_OPTION)
 {
@@ -490,6 +513,7 @@ PdfWriter.getInstance(document,new FileOutputStream(new File(fullPath)));
 document.open();
 com.itextpdf.text.Font font=new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN,24,com.itextpdf.text.Font.BOLD);
 Paragraph paragraph;
+
 float widths[]={1f,5f};
 PdfPTable table=null;
 com.itextpdf.text.Image img;
@@ -504,30 +528,45 @@ int pageNumber=0;
 int x;
 AuthorInterface authorInterface;
 x=0;
+
 while(x<authorModel.getRowCount())
 {
 if(newPage==true)
 {
+
 pageNumber++;
 paragraph=new Paragraph("ABC Book Store",font);
 paragraph.setAlignment(Element.ALIGN_CENTER);
 document.add(paragraph);
 paragraph=new Paragraph("Page No."+pageNumber);
 paragraph.setAlignment(Element.ALIGN_RIGHT);
+
 document.add(paragraph);
+
+
 document.add(new Paragraph(" "));
-img=com.itextpdf.text.Image.getInstance(AuthorPanel.this.getClass().getResource("logo.png"));
+
+
+img=com.itextpdf.text.Image.getInstance("logo.png");
+
+
 img.setAbsolutePosition(50,760);
+
+
 document.add(img);
+//=========================
+
 table=new PdfPTable(2);
 table.setWidths(widths);
 cell=new PdfPCell(new Paragraph(" S.No."));
 cell.setBackgroundColor(BaseColor.GRAY);
 table.addCell(cell);
+
 cell=new PdfPCell(new Paragraph("Authors"));
 cell.setBackgroundColor(BaseColor.GRAY);
 table.addCell(cell);
 }
+
 newPage=false;
 authorInterface=authorModel.getAuthorAt(x);
 cell=new PdfPCell(new Paragraph(String.valueOf(x+1)));
@@ -551,6 +590,7 @@ newPage=true;
 }
 document.close();
 JOptionPane.showMessageDialog(AuthorPanel.this,"Pdf file : "+fullPath+" Created.."); 
+
 }catch(Exception exception)
 {
 System.out.println(exception);

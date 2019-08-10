@@ -33,7 +33,6 @@ if(randomAccessFile.length()==0)
     {
     randomAccessFile.readLine();
     Vname=randomAccessFile.readLine();
-    System.out.println("Vname : "+Vname);
     if(Vname.equalsIgnoreCase(authorInterface.getName()))
      {
       randomAccessFile.close();
@@ -58,7 +57,7 @@ if(randomAccessFile.length()==0)
       randomAccessFile.writeBytes("\n");
       randomAccessFile.close();
     authorInterface.setCode(code);  
-    //System.out.println("Author Added");
+    
   }catch(Exception ioe)
     {    	
 ioe.printStackTrace();

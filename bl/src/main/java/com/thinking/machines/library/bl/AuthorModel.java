@@ -130,7 +130,7 @@ break;
 }
 if(foundName)
 {
-throw new BLException("Author : "+authorInterface.getName()+"exists.");
+throw new BLException("Author : "+authorInterface.getName()+" exists.");
 }
 com.thinking.machines.library.dl.AuthorInterface dlAuthorInterface;
 dlAuthorInterface=new com.thinking.machines.library.dl.Author();
@@ -259,10 +259,11 @@ for(int i=0;i<authorsLinkedList.size();i++)
 {
 authorInterface=authorsLinkedList.get(i);
 vName=authorInterface.getName();
+
 if(vName.toUpperCase().startsWith(name.toUpperCase()))return i;
 }
 }
-if(compareLeft && compareInCaseSensitive==false)
+if(compareLeft && compareInCaseSensitive)
 {
 AuthorInterface authorInterface;
 String vName;
