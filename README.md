@@ -7,12 +7,12 @@ Steps to Run the Application -
 
 For Linux -> 
 
-> Install -> ./install.sh
+>./install.sh
 
-> Run -> ./runme.sh
+>./runme.sh
 
 For Windows -> 
 
-> Install -> ./install.bat
+> install
 
-> Run -> ./runme.bat
+> runme
