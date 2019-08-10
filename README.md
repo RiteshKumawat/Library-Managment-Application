@@ -3,6 +3,12 @@ Requirments :
 Gradle 
 
 Steps to Run the Application -
-1. Clone the project -> git clone https://github.com/RiteshKumawat/Library-Managment-Application.git
-2. Install -> ./install.sh
-3. Run -> ./runme.sh
+> Clone the project -> git clone https://github.com/RiteshKumawat/Library-Managment-Application.git
+
+For Linux -> 
+> Install -> ./install.sh
+> Run -> ./runme.sh
+
+For Windows -> 
+> Install -> ./install.bat
+> Run -> ./runme.bat
