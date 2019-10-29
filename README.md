@@ -2,7 +2,7 @@
 
 Preview - 
 
-![preview](libraryPreview)
+![preview](libraryPreview.png)
 
 
 
