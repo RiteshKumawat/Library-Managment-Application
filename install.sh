@@ -1,16 +1,16 @@
-pushd dl 
+pushd dl
 
 gradle build
 
 popd
 
-pushd bl 
+pushd bl
 
 gradle build
 
 popd
 
-pushd pl 
+pushd pl
 
 gradle build
 
